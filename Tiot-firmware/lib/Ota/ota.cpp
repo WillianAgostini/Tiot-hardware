@@ -1,6 +1,8 @@
 #include "ota.h"
 
-void InitOta() {
+Ota::Ota(/* args */) {}
+
+void Ota::InitOta() {
 
   // Porta padrao do ESP8266 para OTA eh 8266 - Voce pode mudar ser quiser, mas
   // deixe indicado!
@@ -37,7 +39,7 @@ void InitOta() {
   ArduinoOTA.begin();
 }
 
-void Loop() { ArduinoOTA.handle(); }
+void Ota::LoopOta() { ArduinoOTA.handle(); }
 
 // void PrintSerial(char *text) {
 //   if (Client.connected())

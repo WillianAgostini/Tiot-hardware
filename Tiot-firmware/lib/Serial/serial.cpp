@@ -1,6 +1,6 @@
 #include "serial.h"
 
-void InitSerial() {
+void SerialUsb::InitSerial() {
   Serial.begin(115200);
   Serial.println("Iniciando...");
 }

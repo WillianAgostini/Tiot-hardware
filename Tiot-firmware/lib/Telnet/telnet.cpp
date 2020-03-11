@@ -1,18 +1,17 @@
 #include "telnet.h"
 
-WiFiClient Client; // Telnet Client Declaration
-bool hasClient = false;
-WiFiServer TelnetServer(23);
+Telnet::Telnet(/* args */) { TelnetServer = new WiFiServer(23); }
 
-void InitTelNet() {
-  TelnetServer.begin();
-  TelnetServer.setNoDelay(true);
+void Telnet::InitTelNet() {
+
+  TelnetServer->begin();
+  TelnetServer->setNoDelay(true);
 }
 
-void TelNetMonitor() {
+void Telnet::TelNetMonitor() {
 
   if (!hasClient) {
-    Client = TelnetServer.available();
+    Client = TelnetServer->available();
     if (Client)
       hasClient = true;
   }

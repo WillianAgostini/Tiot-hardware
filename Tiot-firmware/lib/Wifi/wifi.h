@@ -3,6 +3,13 @@
 #ifndef wifi_H // include guard
 #define wifi_H
 
-void InitWifi();
+class WifiClass {
+private:
+  const char *ssid = "Btelway_Marines";
+
+public:
+  WifiClass(/* args */);
+  void InitWifi();
+};
 
 #endif

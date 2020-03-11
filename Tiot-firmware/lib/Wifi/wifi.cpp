@@ -4,9 +4,10 @@ IPAddress ip(192, 168, 1, 200);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 IPAddress dns(8, 8, 8, 8);
-const char *ssid = "Btelway_Marines";
 
-void InitWifi() {
+WifiClass::WifiClass(/* args */) {}
+
+void WifiClass::InitWifi() {
   delay(10);
 
   WiFi.config(ip, gateway, subnet, dns);

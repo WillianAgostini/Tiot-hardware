@@ -3,6 +3,10 @@
 #ifndef serial_H // include guard
 #define serial_H
 
-void InitSerial();
+class SerialUsb {
+public:
+  void InitSerial();
+};
+extern SerialUsb serialUsb;
 
 #endif
