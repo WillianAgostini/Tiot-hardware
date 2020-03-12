@@ -22,3 +22,8 @@ void Telnet::TelNetMonitor() {
     hasClient = false;
   }
 }
+
+void Telnet::Print(const char *c) {
+  if (Client)
+    Client.println(c);
+}

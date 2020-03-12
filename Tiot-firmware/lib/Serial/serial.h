@@ -6,6 +6,7 @@
 class SerialUsb {
 public:
   void InitSerial();
+  void Print(const char *c);
 };
 extern SerialUsb serialUsb;
 

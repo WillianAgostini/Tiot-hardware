@@ -13,6 +13,7 @@ public:
   Telnet(/* args */);
   void InitTelNet();
   void TelNetMonitor();
+  void Print(const char *c);
 };
 
 #endif
