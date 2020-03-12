@@ -40,11 +40,3 @@ void Ota::InitOta() {
 }
 
 void Ota::LoopOta() { ArduinoOTA.handle(); }
-
-// void PrintSerial(char *text) {
-//   if (Client.connected())
-//     Client.println(text);
-
-//   if (Serial.available())
-//     Serial.println(text);
-// }

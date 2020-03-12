@@ -1,7 +1,8 @@
-#include "libs.h"
-
 #ifndef telnet_H // include guard
 #define telnet_H
+
+#include "libs.h"
+#include <ESP8266WiFi.h>
 
 class Telnet {
 private:
@@ -14,6 +15,8 @@ public:
   void InitTelNet();
   void TelNetMonitor();
   void Print(const char *c);
+  // void Print(const char c);
+  void Println(const char *c);
 };
 
 #endif

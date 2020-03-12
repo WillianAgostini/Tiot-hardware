@@ -7,5 +7,15 @@ void SerialUsb::InitSerial() {
 
 void SerialUsb::Print(const char *c) {
   if (Serial.availableForWrite())
+    Serial.print(c);
+}
+
+// void SerialUsb::Print(const char c) {
+//   if (Serial.availableForWrite())
+//     Serial.print(c);
+// }
+
+void SerialUsb::Println(const char *c) {
+  if (Serial.availableForWrite())
     Serial.println(c);
 }

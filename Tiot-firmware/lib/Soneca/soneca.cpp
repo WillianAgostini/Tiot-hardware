@@ -10,7 +10,14 @@ void Soneca::Print(char *c) {
   serialUsb.Print(c);
 }
 
+// void Soneca::Print(char c) {
+//   telnet.Print(c);
+//   serialUsb.Print(c);
+// }
+
 void Soneca::Print(String c) {
-  telnet.Print(c.c_str());
-  serialUsb.Print(c.c_str());
+  char cstr[c.length() + 1];
+  strcpy(cstr, c.c_str());
+  telnet.Print(cstr);
+  serialUsb.Print(cstr);
 }

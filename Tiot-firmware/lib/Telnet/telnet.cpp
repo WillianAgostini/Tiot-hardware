@@ -25,5 +25,15 @@ void Telnet::TelNetMonitor() {
 
 void Telnet::Print(const char *c) {
   if (Client)
+    Client.print(c);
+}
+
+// void Telnet::Print(const char c) {
+//   if (Client)
+//     Client.print(c);
+// }
+
+void Telnet::Println(const char *c) {
+  if (Client)
     Client.println(c);
 }
