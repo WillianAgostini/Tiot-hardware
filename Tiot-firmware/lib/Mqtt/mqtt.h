@@ -2,12 +2,13 @@
 #define mqtt_H
 
 #include "libs.h"
+#include "sensor.h"
 #include "soneca.h"
+
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-
-void InitMqtt();
+void InitMqtt(Sensor *newSensor);
 void LoopMqtt();
 void reconnect();
 void callback(char *topic, byte *payload, int length);

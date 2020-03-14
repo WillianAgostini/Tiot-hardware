@@ -35,7 +35,7 @@ void setup() {
   wifi.InitWifi();
   ota.InitOta();
   sensor.InitSensor();
-  InitMqtt();
+  InitMqtt(&sensor);
   InitTime();
 }
 

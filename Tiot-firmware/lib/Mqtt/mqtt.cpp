@@ -2,6 +2,7 @@
 
 WiFiClient espClient;
 PubSubClient client(espClient);
+Sensor *sensorTemp;
 
 unsigned long lastMsg = 0;
 char msg[50];
@@ -14,19 +15,20 @@ void callback(char *topic, byte *payload, int length) {
   Serial.print(topic);
   Serial.print("] ");
 
-  // TODO
-  if (topic == TiotSub) {
-    int value;
-    for (int i = 0; i < length; i++) {
-      int incoming = (int)payload[i] - '0';
-      Serial.print(incoming);
-      value = incoming;
-    }
-    Serial.println("");
-  }
+  // // TODO
+  // if (topic == "caveira/action") {
+  //   int value;
+  //   for (int i = 0; i < length; i++) {
+  //     int incoming = (int)payload[i] - '0';
+  //     Serial.print(incoming);
+  //     value = incoming;
+  //   }
+  //   Serial.println("");
+  // }
 }
 
-void InitMqtt() {
+void InitMqtt(Sensor *newSensor) {
+  sensorTemp = newSensor;
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 }
@@ -64,9 +66,14 @@ void LoopMqtt() {
   unsigned long now = millis();
   if (now - lastMsg > LoopInterval) {
     lastMsg = now;
-    snprintf(msg, 50, "hello world #%ld");
-    Serial.print("Publish message: ");
-    Serial.println(msg);
-    client.publish(TiotPub, msg);
+    Publish();
   }
+}
+
+void Publish() {
+  float temp = sensorTemp->GetTemperature();
+  snprintf(msg, 50, "%f", temp);
+  Serial.print("Publish message: ");
+  Serial.println(msg);
+  client.publish(TiotPub, msg);
 }
