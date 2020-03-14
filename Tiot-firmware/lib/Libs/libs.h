@@ -3,4 +3,7 @@
 
 #include <Arduino.h>
 
+#define TiotPub "caveira"
+#define TiotSub "caveira/action"
+
 #endif

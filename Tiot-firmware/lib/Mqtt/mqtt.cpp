@@ -3,20 +3,27 @@
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-long lastMsg = 0;
+unsigned long lastMsg = 0;
 char msg[50];
-int value = 0;
 
+unsigned const int LoopInterval = 5000;
 const char *mqtt_server = "broker.mqtt-dashboard.com";
 
 void callback(char *topic, byte *payload, int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
-  for (int i = 0; i < length; i++) {
-    Serial.print((char *)payload[i]);
+
+  // TODO
+  if (topic == TiotSub) {
+    int value;
+    for (int i = 0; i < length; i++) {
+      int incoming = (int)payload[i] - '0';
+      Serial.print(incoming);
+      value = incoming;
+    }
+    Serial.println("");
   }
-  Serial.println("");
 }
 
 void InitMqtt() {
@@ -35,9 +42,9 @@ void reconnect() {
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      client.publish("outTopic", "hello world");
+      client.publish("/uhuul", "hello world");
       // ... and resubscribe
-      client.subscribe("inTopic");
+      client.subscribe(TiotSub);
     } else {
       Serial.print("failed, rc=");
       Serial.print((char *)client.state());
@@ -54,13 +61,12 @@ void LoopMqtt() {
   }
   client.loop();
 
-  long now = millis();
-  if (now - lastMsg > 2000) {
+  unsigned long now = millis();
+  if (now - lastMsg > LoopInterval) {
     lastMsg = now;
-    ++value;
-    snprintf(msg, 50, "hello world #%ld", value);
+    snprintf(msg, 50, "hello world #%ld");
     Serial.print("Publish message: ");
     Serial.println(msg);
-    client.publish("outTopic", msg);
+    client.publish(TiotPub, msg);
   }
 }

@@ -6,6 +6,10 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
+
 void InitMqtt();
 void LoopMqtt();
+void reconnect();
+void callback(char *topic, byte *payload, int length);
+void Publish();
 #endif
