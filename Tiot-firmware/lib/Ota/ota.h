@@ -1,7 +1,7 @@
 #ifndef OTA_H // include guard
 #define OTA_H
 
-#include "libs.h"
+#include "defines.h"
 #include <ArduinoOTA.h>
 #include <WiFiUdp.h>
 

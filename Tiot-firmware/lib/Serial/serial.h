@@ -1,7 +1,7 @@
 #ifndef serial_H // include guard
 #define serial_H
 
-#include "libs.h"
+#include "defines.h"
 
 class SerialUsb {
 public:

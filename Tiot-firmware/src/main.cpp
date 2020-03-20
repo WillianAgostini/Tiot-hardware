@@ -1,4 +1,4 @@
-#include "libs.h"
+#include "defines.h"
 #include "mqtt.h"
 #include "ota.h"
 #include "sensor.h"
@@ -12,6 +12,7 @@
 #include <WiFiUdp.h>
 
 #define SensorDs18b20 4
+#define Actuator 2
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
@@ -30,12 +31,13 @@ void InitTime() {
 }
 
 void setup() {
+
   usb.InitSerial();
   telnet.InitTelNet();
   wifi.InitWifi();
   ota.InitOta();
   sensor.InitSensor();
-  InitMqtt(&sensor);
+  InitMqtt(&sensor, Actuator);
   InitTime();
 }
 

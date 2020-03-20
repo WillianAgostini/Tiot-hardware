@@ -11,7 +11,7 @@ void WifiClass::InitWifi() {
   delay(10);
 
   WiFi.config(ip, gateway, subnet, dns);
-  WiFi.begin(ssid);
+  WiFi.begin(WifiSsid);
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);

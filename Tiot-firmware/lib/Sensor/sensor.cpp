@@ -14,10 +14,11 @@ Sensor::Sensor(int GPIO) {
 void Sensor::InitSensor() { sensors.begin(); }
 
 void Sensor::Loop() {
+  // RequestTemperature();
   unsigned long now = millis();
   if (now - lastMsg > LoopInterval) {
     lastMsg = now;
-    return RequestTemperature();
+    RequestTemperature();
   }
 }
 

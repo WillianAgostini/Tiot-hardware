@@ -1,7 +1,7 @@
 #ifndef telnet_H // include guard
 #define telnet_H
 
-#include "libs.h"
+#include "defines.h"
 #include <ESP8266WiFi.h>
 
 class Telnet {

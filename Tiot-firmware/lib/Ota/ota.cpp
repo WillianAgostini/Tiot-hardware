@@ -9,7 +9,7 @@ void Ota::InitOta() {
   ArduinoOTA.setPort(8266);
 
   // O Hostname padrao eh esp8266-[ChipID], mas voce pode mudar com essa funcao
-  ArduinoOTA.setHostname("caveira.local");
+  ArduinoOTA.setHostname(OtaHostName);
 
   // Nenhuma senha eh pedida, mas voce pode dar mais seguranca pedindo uma senha
   // pra gravar ArduinoOTA.setPassword((const char *)"123");
