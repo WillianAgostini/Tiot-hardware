@@ -5,6 +5,7 @@
 #include "serial.h"
 #include "soneca.h"
 #include "telnet.h"
+#include "thermostat.h"
 #include "wifi.h"
 
 #include <ESP8266WiFi.h>
@@ -12,7 +13,6 @@
 #include <WiFiUdp.h>
 
 #define SensorDs18b20 4
-#define Actuator 2
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
@@ -24,6 +24,7 @@ Ota ota;
 SerialUsb Soneca::serialUsb = usb;
 Telnet Soneca::telnet = telnet;
 Sensor sensor(SensorDs18b20);
+Thermostat thermostat(&sensor);
 
 void InitTime() {
   timeClient.begin();
@@ -37,7 +38,7 @@ void setup() {
   wifi.InitWifi();
   ota.InitOta();
   sensor.InitSensor();
-  InitMqtt(&sensor, Actuator);
+  InitMqtt(&sensor);
   InitTime();
 }
 
@@ -46,4 +47,5 @@ void loop() {
   telnet.TelNetMonitor();
   LoopMqtt();
   sensor.Loop();
+  thermostat.Loop();
 }

@@ -11,4 +11,6 @@
 #define OtaHostName "caveira.local"
 #define MqttServer "broker.mqtt-dashboard.com"
 
+#define PinThermostat 2
+
 #endif

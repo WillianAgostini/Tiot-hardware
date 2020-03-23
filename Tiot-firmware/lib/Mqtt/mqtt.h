@@ -9,7 +9,7 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-void InitMqtt(Sensor *newSensor, int Gpio);
+void InitMqtt(Sensor *newSensor);
 void LoopMqtt();
 void reconnect();
 void callback(char *topic, byte *payload, int length);

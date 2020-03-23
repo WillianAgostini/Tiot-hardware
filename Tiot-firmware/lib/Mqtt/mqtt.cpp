@@ -3,7 +3,6 @@
 WiFiClient espClient;
 PubSubClient client(espClient);
 Sensor *sensorTemp;
-int Gpio = 0;
 unsigned long lastMsg = 0;
 char msg[50];
 
@@ -69,14 +68,11 @@ void PublishInterval() {
 
   client.publish(TiotPubInterval, a);
 }
-void InitMqtt(Sensor *newSensor, int gpio) {
-  EEPROM.begin(4); // Inicia a EEPROM com tamanho de 4 Bytes (minimo).
-
+void InitMqtt(Sensor *newSensor) {
+  
   sensorTemp = newSensor;
   client.setServer(MqttServer, 1883);
   client.setCallback(callback);
-  pinMode(gpio, OUTPUT);
-  Gpio = gpio;
 }
 
 void reconnect() {
