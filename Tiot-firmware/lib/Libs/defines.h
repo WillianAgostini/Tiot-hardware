@@ -5,8 +5,7 @@
 
 #define TiotPub "caveira"
 #define TiotPubInterval "caveira/interval"
-#define TiotSubMax "caveira/action/max"
-#define TiotSubMin "caveira/action/min"
+#define TiotSub "caveira/action"
 
 #define WifiSsid "Btelway_Marines"
 #define OtaHostName "caveira.local"

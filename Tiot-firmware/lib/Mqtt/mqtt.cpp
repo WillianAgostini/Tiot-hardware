@@ -4,7 +4,6 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 Sensor *sensorTemp;
 int Gpio = 0;
-
 unsigned long lastMsg = 0;
 char msg[50];
 
@@ -15,53 +14,59 @@ void callback(char *topic, byte *payload, int length) {
   Serial.print(topic);
   Serial.print("] ");
 
-  if (strcmp(topic, TiotSubMax) == 0)
-    ActuatorActionMax(topic, payload, length);
-
-  if (strcmp(topic, TiotSubMin) == 0)
-    ActuatorActionMin(topic, payload, length);
+  if (strcmp(topic, TiotSub) == 0)
+    ActuatorAction(topic, payload, length);
 }
 
-int GetValue(char *topic, byte *payload, int length) {
-  int value = 0;
+String GetValue(char *topic, byte *payload, int length) {
+  char text[length];
   for (int i = 0; i < length; i++) {
-    int incoming = (int)payload[i] - '0';
-    value = incoming;
+    text[i] = (char)payload[i];
   }
-  return value;
+  return String(text);
 }
 
-void ActuatorActionMax(char *topic, byte *payload, int length) {
-  int value = GetValue(topic, payload, length);
+int GetDelimiterIndex(String text) { return text.lastIndexOf('-'); }
 
-  digitalWrite(Gpio, value);
-  EEPROM.write(1, value);
-  EEPROM.commit();
-  Serial.println(
-      EEPROM.read(1)); // Mostra no Monitor oque há antes de efetuar a gravação
-  PublishInterval();
+int GetMin(String text, int delimiterIndex) {
+  return text.substring(0, delimiterIndex).toInt();
 }
 
-void ActuatorActionMin(char *topic, byte *payload, int length) {
-  int value = GetValue(topic, payload, length);
+int GetMax(String text, int delimiterIndex) {
+  return text.substring(delimiterIndex + 1, text.length()).toInt();
+}
 
-  digitalWrite(Gpio, value);
-  EEPROM.write(0, value);
+void ActuatorAction(char *topic, byte *payload, int length) {
+  String text = GetValue(topic, payload, length);
+  int separator = GetDelimiterIndex(text);
+
+  if (separator == 0)
+    return;
+
+  int min = GetMin(text, separator);
+  int max = GetMax(text, separator);
+
+  EEPROM.write(0, min);
+  EEPROM.write(1, max);
   EEPROM.commit();
-  Serial.println(
-      EEPROM.read(0)); // Mostra no Monitor oque há antes de efetuar a gravação
-  PublishInterval();
+
+  Serial.println("-----------");
+  Serial.println(EEPROM.read(0));
+  Serial.println(EEPROM.read(1));
+  Serial.println("___________");
+
+  // PublishInterval();
 }
 
 void PublishInterval() {
   int min = EEPROM.read(0);
   int max = EEPROM.read(1);
 
-  char a[3];
-  a[0] = (char)min;
-  a[1] = ',';
-  a[2] = (char)max;
+  char a[2];
+  a[0] = min;
+  a[1] = max;
   String text = min + "," + max;
+
   client.publish(TiotPubInterval, a);
 }
 void InitMqtt(Sensor *newSensor, int gpio) {
@@ -87,8 +92,7 @@ void reconnect() {
       // Once connected, publish an announcement...
       client.publish(TiotPub, "hello world");
       // ... and resubscribe
-      client.subscribe(TiotSubMax);
-      client.subscribe(TiotSubMin);
+      client.subscribe(TiotSub);
     } else {
       Serial.print("failed, rc=");
       Serial.print((char *)client.state());

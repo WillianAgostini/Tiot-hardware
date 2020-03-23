@@ -14,9 +14,9 @@ void LoopMqtt();
 void reconnect();
 void callback(char *topic, byte *payload, int length);
 void Publish();
-void ActuatorActionMax(char *topic, byte *payload, int length);
+void ActuatorAction(char *topic, byte *payload, int length);
 void ActuatorActionMin(char *topic, byte *payload, int length);
-int GetValue(char *topic, byte *payload, int length);
+String GetValue(char *topic, byte *payload, int length);
 void PublishInterval();
 
 #endif
