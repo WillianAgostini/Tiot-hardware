@@ -6,7 +6,7 @@
 
 class Sensor {
 private:
-  float temperature = 0;
+  float temperature = -127.00f;
   unsigned long lastMsg = 0;
   unsigned const int LoopInterval = 5000;
   DallasTemperature sensors;

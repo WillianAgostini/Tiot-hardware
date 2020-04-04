@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name toit)(type KiCad)(uri ${KIPRJMOD}/toit.pretty)(options "")(descr "")(disabled))
+  (lib (name tiot)(type KiCad)(uri ${KIPRJMOD}/tiot.pretty)(options "")(descr ""))
+)
