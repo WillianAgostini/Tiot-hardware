@@ -8,14 +8,7 @@
 #include "thermostat.h"
 #include "wifi.h"
 
-#include <ESP8266WiFi.h>
-#include <NTPClient.h>
-#include <WiFiUdp.h>
-
-#define SensorDs18b20 4
-
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
+#include <WiFi.h>
 
 SerialUsb usb;
 WifiClass wifi;
@@ -23,28 +16,24 @@ Telnet telnet;
 Ota ota;
 SerialUsb Soneca::serialUsb = usb;
 Telnet Soneca::telnet = telnet;
-Sensor sensor(SensorDs18b20);
+Sensor sensor;
 Thermostat thermostat(&sensor);
 
-void InitTime() {
-  timeClient.begin();
-  timeClient.update();
-}
-
 void setup() {
+  // telnet.InitTelNet();
+  EEPROM.begin(4); // Inicia a EEPROM com tamanho de 4 Bytes (minimo).
 
   usb.InitSerial();
-  telnet.InitTelNet();
   wifi.InitWifi();
   ota.InitOta();
   sensor.InitSensor();
   InitMqtt(&sensor);
-  InitTime();
 }
 
 void loop() {
+  // telnet.TelNetMonitor();
+
   ota.LoopOta();
-  telnet.TelNetMonitor();
   LoopMqtt();
   sensor.Loop();
   thermostat.Loop();

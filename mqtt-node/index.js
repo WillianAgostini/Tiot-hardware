@@ -2,7 +2,10 @@ var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.mqtt-dashboard.com')
 
 client.on('connect', function() {
-  setInterval(() => {client.publish('caveira/action', '10-50')}, 1000);
+  let interval = {min: 10, max: 15};
+
+  setInterval(
+      () => {client.publish('caveira/action', JSON.stringify(interval))}, 3000);
   // setInterval(() => {client.publish('caveira/action/min', '1')}, 1000);
   client.subscribe('caveira');
   client.subscribe('caveira/interval');
@@ -10,7 +13,7 @@ client.on('connect', function() {
 
 client.on('message', function(topic, message) {
   // message is Buffer
-  console.log(topic);
+  console.log(topic, message.toString());
   if ('caveira/interval' != topic) return;
 
 

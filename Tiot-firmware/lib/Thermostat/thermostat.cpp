@@ -1,7 +1,6 @@
 #include "thermostat.h"
 
 Thermostat::Thermostat(Sensor *Sensor) {
-  EEPROM.begin(4); // Inicia a EEPROM com tamanho de 4 Bytes (minimo).
   sensor = Sensor;
   pinMode(PinThermostat, OUTPUT);
   RefreshValues();
@@ -10,6 +9,11 @@ Thermostat::Thermostat(Sensor *Sensor) {
 void Thermostat::RefreshValues() {
   minValue = EEPROM.read(0);
   maxValue = EEPROM.read(1);
+  Serial.println("#############");
+  Serial.println(IsHot());
+  Serial.println(IsCold());
+  Serial.println(IsOk());
+  Serial.println("/////////////");
 }
 
 bool Thermostat::IsHot() { return temperature > maxValue; }
@@ -22,10 +26,16 @@ bool Thermostat::IsOk() {
 
 void Thermostat::Loop() {
   temperature = sensor->GetTemperature();
-
+  ;
   if (IsHot())
     digitalWrite(PinThermostat, HIGH);
 
   if (IsCold() || IsOk())
     digitalWrite(PinThermostat, LOW);
+
+  unsigned long now = millis();
+  if (now - lastMsg > LoopInterval) {
+    lastMsg = now;
+    RefreshValues();
+  }
 }

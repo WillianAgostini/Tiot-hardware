@@ -3,7 +3,6 @@
 
 #include "defines.h"
 #include "sensor.h"
-#include <EEPROM.h>
 
 class Thermostat {
 private:
@@ -11,6 +10,8 @@ private:
   float maxValue;
   Sensor *sensor;
   float temperature;
+  unsigned long lastMsg = 0;
+  unsigned const int LoopInterval = 1000;
 
   bool IsHot();
   bool IsCold();

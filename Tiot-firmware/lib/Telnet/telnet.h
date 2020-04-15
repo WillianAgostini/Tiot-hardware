@@ -2,7 +2,7 @@
 #define telnet_H
 
 #include "defines.h"
-#include <ESP8266WiFi.h>
+#include <WiFi.h>
 
 class Telnet {
 private:

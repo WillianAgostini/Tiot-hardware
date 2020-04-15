@@ -1,7 +1,8 @@
-#ifndef libs_H // include guard
-#define libs_H
+#ifndef defines_H // include guard
+#define defines_H
 
 #include <Arduino.h>
+#include <EEPROM.h>
 
 #define TiotPub "caveira"
 #define TiotPubInterval "caveira/interval"
@@ -11,6 +12,7 @@
 #define OtaHostName "caveira.local"
 #define MqttServer "broker.mqtt-dashboard.com"
 
-#define PinThermostat 2
+#define PinThermostat 25
+#define ONE_WIRE_BUS 13
 
 #endif
