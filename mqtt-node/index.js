@@ -2,7 +2,7 @@ var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.mqtt-dashboard.com')
 
 client.on('connect', function() {
-  let interval = {min: 10, max: 15};
+  let interval = {min: 0, max: 5};
 
   setInterval(
       () => {client.publish('caveira/action', JSON.stringify(interval))}, 3000);
