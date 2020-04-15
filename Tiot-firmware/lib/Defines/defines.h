@@ -10,7 +10,8 @@
 
 #define WifiSsid "Btelway_Marines"
 #define OtaHostName "caveira.local"
-#define MqttServer "broker.mqtt-dashboard.com"
+// #define MqttServer "broker.mqtt-dashboard.com"
+#define MqttServer "192.168.1.30"
 
 #define PinThermostat 25
 #define ONE_WIRE_BUS 13

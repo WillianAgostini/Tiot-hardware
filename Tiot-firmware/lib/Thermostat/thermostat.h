@@ -13,6 +13,7 @@ private:
   unsigned long lastMsg = 0;
   unsigned const int LoopInterval = 1000;
 
+  bool goToMin = true;
   bool IsHot();
   bool IsCold();
   bool IsOk();

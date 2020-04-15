@@ -12,6 +12,8 @@ void WifiClass::InitWifi() {
 
   WiFi.config(ip, gateway, subnet, dns);
   WiFi.begin(WifiSsid);
+  delay(1);
+  WiFi.setHostname(OtaHostName);
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
