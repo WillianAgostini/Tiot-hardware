@@ -5,6 +5,8 @@ PubSubClient client(espClient);
 Sensor *sensorTemp;
 unsigned long lastMsg = 0;
 char msg[50];
+char maxChar[50];
+char minChar[50];
 
 unsigned const int LoopInterval = 5000 / 2;
 
@@ -42,19 +44,19 @@ void ActuatorAction(char *topic, byte *payload, int length) {
   // PublishInterval();
 }
 
-void PublishInterval() {
-  int min = EEPROM.read(0);
-  int max = EEPROM.read(1);
-
-  char a[2];
-  a[0] = min;
-  a[1] = max;
-  String text = min + "," + max;
-
-  client.publish(TiotPubInterval, a);
+void PublishMin() {
+  double min = EEPROM.read(0);
+  snprintf(minChar, 50, "%f", min);
+  client.publish(TiotPubMin, minChar);
 }
-void InitMqtt(Sensor *newSensor) {
 
+void PublishMax() {
+  double max = EEPROM.read(1);
+  snprintf(maxChar, 50, "%f", max);
+  client.publish(TiotPubMax, maxChar);
+}
+
+void InitMqtt(Sensor *newSensor) {
   sensorTemp = newSensor;
   client.setServer(MqttServer, 1883);
   client.setCallback(callback);
@@ -94,6 +96,8 @@ void LoopMqtt() {
   if (now - lastMsg > LoopInterval) {
     lastMsg = now;
     Publish();
+    PublishMin();
+    PublishMax();
   }
 }
 

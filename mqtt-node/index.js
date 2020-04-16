@@ -2,14 +2,16 @@ var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://192.168.1.30')
 
 client.on('connect', function() {
-  let interval = {min: 0, max: 5};
+  let interval = {min: 4, max: 8};
 
   // setInterval(
   //     () => {client.publish('caveira/action', JSON.stringify(interval))},
   //     3000);
-  // setInterval(() => {client.publish('caveira/action/min', '1')}, 1000);
+  client.publish('caveira/action', JSON.stringify(interval));
+  client.subscribe('caveira/action');
   client.subscribe('caveira');
-  client.subscribe('caveira/interval');
+  client.subscribe('caveira/min');
+  client.subscribe('caveira/max');
 })
 
 client.on('message', function(topic, message) {

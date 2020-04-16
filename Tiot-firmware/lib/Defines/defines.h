@@ -5,7 +5,8 @@
 #include <EEPROM.h>
 
 #define TiotPub "caveira"
-#define TiotPubInterval "caveira/interval"
+#define TiotPubMin "caveira/min"
+#define TiotPubMax "caveira/max"
 #define TiotSub "caveira/action"
 
 #define WifiSsid "Btelway_Marines"
