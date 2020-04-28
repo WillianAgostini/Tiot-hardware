@@ -7,7 +7,7 @@ unsigned long lastMsg = 0;
 char msg[50];
 char maxChar[50];
 char minChar[50];
-
+long lastReconnectAttempt = 0;
 unsigned const int LoopInterval = 5000 / 2;
 
 void callback(char *topic, byte *payload, int length) {
@@ -31,6 +31,9 @@ void ActuatorAction(char *topic, byte *payload, int length) {
 
   float min = doc["min"];
   float max = doc["max"];
+
+  Serial.println(min);
+  Serial.println(min);
 
   EEPROM.write(0, min);
   EEPROM.write(1, max);
@@ -56,55 +59,53 @@ void PublishMax() {
   client.publish(TiotPubMax, maxChar);
 }
 
-void InitMqtt(Sensor *newSensor) {
-  sensorTemp = newSensor;
-  client.setServer(MqttServer, 1883);
-  client.setCallback(callback);
-}
-
-void reconnect() {
-  // Loop until we're reconnected
-  while (!client.connected()) {
-    Serial.println("Attempting MQTT connection...");
-    // Create a random client ID
-    String clientId = "ESP8266Client-";
-    clientId += String(random(0xffff), HEX);
-    // Attempt to connect
-    if (client.connect(clientId.c_str())) {
-      Serial.println("connected");
-      // Once connected, publish an announcement...
-      client.publish(TiotPub, "hello world");
-      // ... and resubscribe
-      client.subscribe(TiotSub);
-    } else {
-      Serial.print("failed, rc=");
-      Serial.print((char *)client.state());
-      Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
-      delay(5000);
-    }
-  }
-}
-
-void LoopMqtt() {
-  if (!client.connected()) {
-    reconnect();
-  }
-  client.loop();
-
-  unsigned long now = millis();
-  if (now - lastMsg > LoopInterval) {
-    lastMsg = now;
-    Publish();
-    PublishMin();
-    PublishMax();
-  }
-}
-
 void Publish() {
   float temp = sensorTemp->GetTemperature();
   snprintf(msg, 50, "%f", temp);
   // Serial.print("Publish message: ");
   // Serial.println(msg);
   client.publish(TiotPub, msg);
+}
+
+void InitMqtt(Sensor *newSensor) {
+  sensorTemp = newSensor;
+
+  client.setServer(MqttServer, 1883);
+  client.setCallback(callback);
+  lastReconnectAttempt = 0;
+}
+
+boolean reconnect() {
+  if (client.connect(ClientName)) {
+    // Once connected, publish an announcement...
+    IPAddress ip = WiFi.localIP();
+    client.publish(TiotPub, ip.toString().c_str());
+    client.subscribe(TiotSub);
+    Serial.println("connected");
+  }
+  return client.connected();
+}
+
+void LoopMqtt() {
+
+  if (!client.connected()) {
+    long now = millis();
+    if (now - lastReconnectAttempt > 5000) {
+      lastReconnectAttempt = now;
+      Serial.println("Attempt to reconnect");
+      if (reconnect()) {
+        lastReconnectAttempt = 0;
+      }
+    }
+  } else {
+    // Client connected
+    client.loop();
+    unsigned long now = millis();
+    if (now - lastMsg > LoopInterval) {
+      lastMsg = now;
+      Publish();
+      PublishMin();
+      PublishMax();
+    }
+  }
 }

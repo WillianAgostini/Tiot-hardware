@@ -12,7 +12,7 @@
 
 void InitMqtt(Sensor *newSensor);
 void LoopMqtt();
-void reconnect();
+boolean reconnect();
 void callback(char *topic, byte *payload, int length);
 void Publish();
 void ActuatorAction(char *topic, byte *payload, int length);

@@ -12,10 +12,10 @@
 
 SerialUsb usb;
 WifiClass wifi;
-Telnet telnet;
+// Telnet telnet;
 Ota ota;
-SerialUsb Soneca::serialUsb = usb;
-Telnet Soneca::telnet = telnet;
+// SerialUsb Soneca::serialUsb = usb;
+// Telnet Soneca::telnet = telnet;
 Sensor sensor;
 Thermostat thermostat(&sensor);
 
