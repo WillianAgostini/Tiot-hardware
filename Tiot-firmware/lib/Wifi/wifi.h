@@ -5,11 +5,8 @@
 #include "soneca.h"
 #include <WiFi.h>
 
-class WifiClass {
-private:
-public:
-  WifiClass(/* args */);
-  void InitWifi();
-};
+void InitWifi();
+void WiFiEvent(WiFiEvent_t event);
+void ShowIp();
 
 #endif

@@ -9,7 +9,7 @@
 #define TiotPubMax "caveira/max"
 #define TiotSub "caveira/action"
 
-#define WifiSsid "Btelway_Marines"
+#define WifiSsid "MiPhone"
 #define OtaHostName "caveira.local"
 #define ClientName "caveiraClient"
 // #define MqttServer "broker.mqtt-dashboard.com"
@@ -18,5 +18,7 @@
 
 #define PinThermostat 25
 #define ONE_WIRE_BUS 13
+
+static volatile bool wifi_connected = false; // global variable
 
 #endif

@@ -11,7 +11,6 @@
 #include <WiFi.h>
 
 SerialUsb usb;
-WifiClass wifi;
 // Telnet telnet;
 Ota ota;
 // SerialUsb Soneca::serialUsb = usb;
@@ -24,8 +23,8 @@ void setup() {
   EEPROM.begin(4); // Inicia a EEPROM com tamanho de 4 Bytes (minimo).
 
   usb.InitSerial();
-  wifi.InitWifi();
-  ota.InitOta();
+  InitWifi();
+  // ota.InitOta();
   sensor.InitSensor();
   InitMqtt(&sensor);
 }
@@ -33,7 +32,7 @@ void setup() {
 void loop() {
   // telnet.TelNetMonitor();
 
-  ota.LoopOta();
+  // ota.LoopOta();
   LoopMqtt();
   sensor.Loop();
   thermostat.Loop();

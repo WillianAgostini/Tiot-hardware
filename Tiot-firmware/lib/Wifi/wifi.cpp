@@ -5,26 +5,38 @@
 // IPAddress subnet(255, 255, 255, 0);
 // IPAddress dns(8, 8, 8, 8);
 
-WifiClass::WifiClass(/* args */) {}
+bool lastStatus = false;
 
-void WifiClass::InitWifi() {
+void ShowIp() {
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void WiFiEvent(WiFiEvent_t event) {
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("Conectado");
+    lastStatus = true;
+    wifi_connected = true;
+    ShowIp();
+  } else {
+    Serial.println("Desconectado");
+    wifi_connected = false;
+
+    if (lastStatus == true) {
+      lastStatus = false;
+      WiFi.begin(WifiSsid);
+    }
+  }
+}
+
+void InitWifi() {
   delay(10);
 
   // WiFi.config(ip, gateway, subnet, dns);
   WiFi.begin(WifiSsid);
   delay(1);
   WiFi.setHostname(OtaHostName);
-
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-    // Serial.print(".");
-  }
-
-  Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
-
-  randomSeed(micros());
+  WiFi.onEvent(WiFiEvent);
 }

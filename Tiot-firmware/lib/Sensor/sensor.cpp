@@ -16,8 +16,8 @@ void Sensor::Loop() {
 void Sensor::RequestTemperature() {
   sensors.requestTemperatures();
   temperature = sensors.getTempCByIndex(0);
-  // Serial.print(temperature);
-  // Serial.println("ºC");
+  Serial.print(temperature);
+  Serial.println("ºC");
 }
 
 float Sensor::GetTemperature() { return temperature; }
