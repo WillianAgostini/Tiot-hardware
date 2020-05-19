@@ -20,11 +20,11 @@ Thermostat thermostat(&sensor);
 
 void setup() {
   // telnet.InitTelNet();
-  EEPROM.begin(4); // Inicia a EEPROM com tamanho de 4 Bytes (minimo).
+  // EEPROM.begin(4); // Inicia a EEPROM com tamanho de 4 Bytes (minimo).
 
   usb.InitSerial();
   InitWifi();
-  // ota.InitOta();
+  ota.InitOta();
   sensor.InitSensor();
   InitMqtt(&sensor);
 }
@@ -32,7 +32,7 @@ void setup() {
 void loop() {
   // telnet.TelNetMonitor();
 
-  // ota.LoopOta();
+  ota.LoopOta();
   LoopMqtt();
   sensor.Loop();
   thermostat.Loop();

@@ -29,19 +29,19 @@ void ActuatorAction(char *topic, byte *payload, int length) {
     return;
   }
 
-  float min = doc["min"];
-  float max = doc["max"];
+  float min = (float)doc["min"];
+  float max = (float)doc["max"];
 
   Serial.println(min);
-  Serial.println(min);
+  Serial.println(max);
 
   EEPROM.write(0, min);
   EEPROM.write(1, max);
   EEPROM.commit();
 
   Serial.println("-----------");
-  Serial.println((float)EEPROM.read(0));
-  Serial.println((float)EEPROM.read(1));
+  Serial.println((double)EEPROM.read(0));
+  Serial.println((double)EEPROM.read(1));
   Serial.println("___________");
 
   // PublishInterval();
@@ -57,6 +57,12 @@ void PublishMax() {
   double max = EEPROM.read(1);
   snprintf(maxChar, 50, "%f", max);
   client.publish(TiotPubMax, maxChar);
+}
+
+void PublishStatus() {
+  bool status = digitalRead(PinThermostat);
+  client.publish(TiotPubStatus, status ? "1" : "0");
+  Serial.println(status);
 }
 
 void Publish() {
@@ -79,7 +85,7 @@ boolean reconnect() {
   if (client.connect(ClientName)) {
     // Once connected, publish an announcement...
     IPAddress ip = WiFi.localIP();
-    client.publish(TiotPub, ip.toString().c_str());
+    client.publish(TiotPubIp, ip.toString().c_str());
     client.subscribe(TiotSub);
     Serial.println("connected");
   }
@@ -106,6 +112,7 @@ void LoopMqtt() {
       Publish();
       PublishMin();
       PublishMax();
+      PublishStatus();
     }
   }
 }

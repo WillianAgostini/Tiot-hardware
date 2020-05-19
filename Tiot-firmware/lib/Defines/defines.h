@@ -4,16 +4,19 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 
-#define TiotPub "caveira"
-#define TiotPubMin "caveira/min"
-#define TiotPubMax "caveira/max"
-#define TiotSub "caveira/action"
+#define TiotPub "homer"
+#define TiotPubMin "homer/min"
+#define TiotPubMax "homer/max"
+#define TiotPubIp "homer/ip"
+#define TiotPubStatus "homer/status"
+#define TiotSub "homer/action"
 
-#define WifiSsid "MiPhone"
-#define OtaHostName "caveira.local"
-#define ClientName "caveiraClient"
+#define WifiSsid "Btelway_Marines"
+#define OtaHostName "homer.local"
+#define ClientName "homerClient"
 // #define MqttServer "broker.mqtt-dashboard.com"
-#define MqttServer "191.52.140.35"
+// #define MqttServer "191.52.140.35"
+#define MqttServer "192.168.1.30"
 // #define MqttServer "172.20.165.20"
 
 #define PinThermostat 25
