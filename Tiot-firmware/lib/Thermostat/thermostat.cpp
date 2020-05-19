@@ -7,8 +7,15 @@ Thermostat::Thermostat(Sensor *Sensor) {
 }
 
 void Thermostat::RefreshValues() {
-  minValue = EEPROM.read(0);
-  maxValue = EEPROM.read(1);
+  int signalMin = EEPROM.read(0);
+  minValue = EEPROM.read(1) / 10;
+  if (signalMin)
+    minValue *= -1;
+
+  int signalMax = EEPROM.read(2);
+  maxValue = EEPROM.read(3) / 10;
+  if (signalMax)
+    maxValue *= -1;
 }
 
 bool Thermostat::IsHot() {

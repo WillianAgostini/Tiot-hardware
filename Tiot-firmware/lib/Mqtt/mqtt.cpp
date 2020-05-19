@@ -29,34 +29,49 @@ void ActuatorAction(char *topic, byte *payload, int length) {
     return;
   }
 
-  float min = (float)doc["min"];
-  float max = (float)doc["max"];
+  const char *q = doc["min"].as<char *>();
+  const char *w = doc["max"].as<char *>();
+  double min = strtod(q, NULL);
+  double max = strtod(w, NULL);
 
-  Serial.println(min);
-  Serial.println(max);
+  // Serial.println(min);
+  // Serial.println(max);
 
-  EEPROM.write(0, min);
-  EEPROM.write(1, max);
+  EEPROM.write(0, min < 0 ? 1 : 0);
+  EEPROM.write(1, min < 0 ? min * -10 : min * +10);
+
+  EEPROM.write(2, max < 0 ? 1 : 0);
+  EEPROM.write(3, max < 0 ? max * -10 : max * 10);
   EEPROM.commit();
 
-  Serial.println("-----------");
-  Serial.println((double)EEPROM.read(0));
-  Serial.println((double)EEPROM.read(1));
-  Serial.println("___________");
+  // Serial.println("-----------");
+  // Serial.println((double)EEPROM.read(1));
+  // Serial.println((double)EEPROM.read(3));
+  // Serial.println("___________");
 
   // PublishInterval();
 }
 
 void PublishMin() {
-  double min = EEPROM.read(0);
-  snprintf(minChar, 50, "%f", min);
+  bool signal = EEPROM.read(0);
+  double min = EEPROM.read(1);
+  if (signal)
+    min *= -1;
+
+  snprintf(minChar, 50, "%.1f", min / 10);
   client.publish(TiotPubMin, minChar);
+  Serial.println(minChar);
 }
 
 void PublishMax() {
-  double max = EEPROM.read(1);
-  snprintf(maxChar, 50, "%f", max);
+  int signal = EEPROM.read(2);
+  float max = EEPROM.read(3);
+  if (signal)
+    max *= -1;
+
+  snprintf(maxChar, 50, "%.1f", max / 10);
   client.publish(TiotPubMax, maxChar);
+  Serial.println(maxChar);
 }
 
 void PublishStatus() {
@@ -67,7 +82,7 @@ void PublishStatus() {
 
 void Publish() {
   float temp = sensorTemp->GetTemperature();
-  snprintf(msg, 50, "%f", temp);
+  snprintf(msg, 50, "%.1f", temp);
   // Serial.print("Publish message: ");
   // Serial.println(msg);
   client.publish(TiotPub, msg);

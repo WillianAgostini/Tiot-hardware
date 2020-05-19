@@ -6,8 +6,8 @@
 
 class Thermostat {
 private:
-  float minValue;
-  float maxValue;
+  double minValue;
+  double maxValue;
   Sensor *sensor;
   float temperature;
   unsigned long lastMsg = 0;
