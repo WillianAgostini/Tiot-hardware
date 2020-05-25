@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 
-#define TiotPub "homer"
+#define TiotPub "homer/packet"
 #define TiotPubMin "homer/min"
 #define TiotPubMax "homer/max"
 #define TiotPubIp "homer/ip"
@@ -15,8 +15,8 @@
 #define OtaHostName "homer.local"
 #define ClientName "homerClient"
 // #define MqttServer "broker.mqtt-dashboard.com"
-// #define MqttServer "191.52.140.35"
-#define MqttServer "192.168.1.30"
+#define MqttServer "191.52.140.35"
+// #define MqttServer "192.168.1.30"
 // #define MqttServer "172.20.165.20"
 
 #define PinThermostat 25

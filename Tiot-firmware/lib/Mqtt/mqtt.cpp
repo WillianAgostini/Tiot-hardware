@@ -81,10 +81,12 @@ void PublishStatus() {
 }
 
 void Publish() {
+  bool status = digitalRead(PinThermostat);
+
   float temp = sensorTemp->GetTemperature();
-  snprintf(msg, 50, "%.1f", temp);
-  // Serial.print("Publish message: ");
-  // Serial.println(msg);
+  snprintf(msg, 50, "%.1f/%d", temp, status);
+  Serial.print("Publish message: ");
+  Serial.println(msg);
   client.publish(TiotPub, msg);
 }
 
