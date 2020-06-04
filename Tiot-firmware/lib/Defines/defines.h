@@ -11,7 +11,11 @@
 #define TiotPubStatus "homer/status"
 #define TiotSub "homer/action"
 
-#define WifiSsid "Btelway_Marines"
+#define WifiSsid "eduroam"
+#define EAP_ANONYMOUS_IDENTITY "293189" // anonymous identity
+#define EAP_IDENTITY "293189"           // user identity
+#define EAP_PASSWORD "3571113"          // eduroam user password
+
 #define OtaHostName "homer.local"
 #define ClientName "homerClient"
 // #define MqttServer "broker.mqtt-dashboard.com"

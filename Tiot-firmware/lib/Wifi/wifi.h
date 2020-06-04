@@ -2,6 +2,7 @@
 #define wifi_H
 
 #include "defines.h"
+#include "esp_wpa2.h"
 #include "soneca.h"
 #include <WiFi.h>
 
