@@ -1,6 +1,6 @@
 # Tiot-hardware
 
-Esse é o diagrama da forma que foi desenvolvido.
+Diagrama do desenvolvimento.
 
 ![](https://github.com/WillianAgostini/Tiot-hardware/blob/master/diagram.png)
 
