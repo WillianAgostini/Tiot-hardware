@@ -88,3 +88,4 @@ fp-info-cache
 *.csv
 
 Tiot-firmware/test/*
+mqtt-node/*.lock
